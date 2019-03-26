@@ -4,7 +4,7 @@ Dump gorountine stacktrace whenever signal received
 
 ## How to use
 
-```
+```go
 package main
 
 import (
