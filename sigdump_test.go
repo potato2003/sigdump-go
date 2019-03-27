@@ -13,9 +13,10 @@ import (
 func TestSetup(t *testing.T) {
 	path := fmt.Sprintf("/tmp/sigdump-test-testsetup-%d.log", os.Getpid())
 
-	Setup(syscall.SIGCONT, path)
+	Setup(syscall.SIGHUP, path)
 
-	syscall.Kill(syscall.Getpid(), syscall.SIGCONT)
+	// Send signal to this process
+	syscall.Kill(syscall.Getpid(), syscall.SIGHUP)
 	time.Sleep(100 * time.Millisecond)
 
 	_, err := os.Stat(path)
@@ -35,7 +36,14 @@ func TestDump(t *testing.T) {
 	Dump("-")
 	Dump("+")
 	Dump("")
-	Dump("/tmp/sigdump-test.log")
+
+	path := fmt.Sprintf("/tmp/sigdump-test-testsetup-%d.log", os.Getpid())
+	Dump(path)
+	_, err := os.Stat(path)
+	if err != nil {
+		t.Fatalf("bad: failed to TestStdup - not exists %s", path)
+	}
+	os.Remove(path)
 
 	os.Stdout = stdoutBk
 	os.Stderr = stderrBk
