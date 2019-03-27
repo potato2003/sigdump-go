@@ -6,7 +6,21 @@ import (
 	"os"
 	"strings"
 	"testing"
+	"time"
 )
+
+func TestDumpTimestamp(t *testing.T) {
+	f := new(bytes.Buffer)
+
+	dumpTimestamp(f)
+
+	actual := string(f.Bytes())
+	_, err := time.Parse(time.RFC1123Z, strings.TrimRight(actual, "\n"))
+
+	if err != nil {
+		t.Fatalf("bad: %s", err)
+	}
+}
 
 func TestDumpGoroutine(t *testing.T) {
 	f := new(bytes.Buffer)
