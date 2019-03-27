@@ -20,7 +20,7 @@ func TestSetup(t *testing.T) {
 
 	_, err := os.Stat(path)
 	if err != nil {
-		t.Fatalf("bad: faild to TestStdup - not exists %s", path)
+		t.Fatalf("bad: failed to TestStdup - not exists %s", path)
 	}
 	os.Remove(path)
 }
@@ -100,7 +100,7 @@ func TestOpenDumpPath(t *testing.T) {
 	path := fmt.Sprintf("/tmp/sigdump-%d.log", os.Getpid())
 	_, err := os.Stat(path)
 	if err != nil {
-		t.Fatalf("bad: faild to open dump file - %s", path)
+		t.Fatalf("bad: failed to open dump file - %s", path)
 	}
 
 	// open specified file
@@ -110,7 +110,7 @@ func TestOpenDumpPath(t *testing.T) {
 
 	_, err = os.Stat(path)
 	if err != nil {
-		t.Fatalf("bad: faild to open dump file - %s", path)
+		t.Fatalf("bad: failed to open dump file - %s", path)
 	}
 	os.Remove(path)
 
