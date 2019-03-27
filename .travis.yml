@@ -4,5 +4,25 @@ go:
  - 1.11.x
  - tip
 
+before_install:
+  - go get golang.org/x/tools/cmd/cover
+  - go get github.com/mattn/goveralls
+  - if ! go get code.google.com/p/go.tools/cmd/cover; then go get golang.org/x/tools/cmd/cover; fi
+
 script:
  - go test -v -covermode=count ./...
+
+after_success:
+  - |
+    if [[ $TRAVIS_GO_VERSION = 1.11.x ]]
+    then
+      go test -covermode=count -coverprofile=coverage.out ./...
+      $GOPATH/bin/goveralls -coverprofile=coverage.out -service=travis-ci -repotoken $COVERALLS_TOKEN
+    else
+      echo skip coverage test, $TRAVIS_GO_VERSION
+    fi
+
+env:
+  global:
+    # Encypted $COVERALLS_TOKEN
+    secure: "n9qpx2xO0VVNcb8DOcDO9RiiRGW5P0nwpmSz4XmzDakHoGaORV0QkrD1hG778IAU+vqx+hpxclpz+3OUTdWUOl2trYBTB80rIYfGlo1ysFIvIPeJQ54M/ACd2BbLoZ4Mr9JmjVdK5gkmH83tfLLNK95a5YkOWsi4huxhNNgE2NOZOqhAeDdSzVYFioxldQPrH4GX6Gcj7YahND6MwLOQj6AqeYV24Fy0ZDC/pTN/6OdifWqUWTCmScBmJES4Sya+zCgo6W6N68omsXuIkH1JeGg2CmBssr638++7cUzp+f8sSd5RovrZLwAQUN6WQ93Z+jsMMZLjIhvFYJ5MDFWDhboSvdO4g0CqADck6D0Yb38ordROL2JBFJnY612UD1YNeVIUrwKEtJxzkdbSHL98RTpJatl0FTHfz5S5WJhwF8kBbE7tQ/0kq/A19hGRfZolk5uY+pQj2Gjm4KVOt+86TH0lMQPwxrfP9ge8kl1A/voOT5T6TVFF3DowP1+8DOy4tvWfmW7/eiHgfnxARFn+21f2DfE8cUG0x46ONEspT+1HOU09269uTZwGWUhdB5my9EZUgeW6MTvITG9ftq+VsUbgm96wUgZJ96e2//d3DarVPqB2eBjZ6a4fxxVM3+wensGryVLZdmDkuYX2DdRfzTYaoGEJ/eApqxEdesqpPwI="
