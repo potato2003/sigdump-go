@@ -5,11 +5,28 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"syscall"
 	"testing"
 	"time"
 )
 
+func TestSetup(t *testing.T) {
+	path := fmt.Sprintf("/tmp/sigdump-test-testsetup-%d.log", os.Getpid())
+
+	Setup(syscall.SIGCONT, path)
+
+	syscall.Kill(syscall.Getpid(), syscall.SIGCONT)
+	time.Sleep(100 * time.Millisecond)
+
+	_, err := os.Stat(path)
+	if err != nil {
+		t.Fatalf("bad: faild to TestStdup - not exists %s", path)
+	}
+	os.Remove(path)
+}
+
 func TestDump(t *testing.T) {
+	// Suppress Stdout/Stderr
 	stdoutBk := os.Stdout
 	stderrBk := os.Stderr
 	os.Stdout, _ = os.Open(os.DevNull)
