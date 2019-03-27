@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/potato2003/sigdump-go.svg?branch=master)](https://travis-ci.org/potato2003/sigdump-go)
+[![Coverage Status](https://coveralls.io/repos/github/potato2003/sigdump-go/badge.svg)](https://coveralls.io/github/potato2003/sigdump-go)
 
 # Sigdump-Go
 
