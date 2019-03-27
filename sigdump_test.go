@@ -9,6 +9,21 @@ import (
 	"time"
 )
 
+func TestDump(t *testing.T) {
+	stdoutBk := os.Stdout
+	stderrBk := os.Stderr
+	os.Stdout, _ = os.Open(os.DevNull)
+	os.Stderr, _ = os.Open(os.DevNull)
+
+	Dump("-")
+	Dump("+")
+	Dump("")
+	Dump("/tmp/sigdump-test.log")
+
+	os.Stdout = stdoutBk
+	os.Stderr = stderrBk
+}
+
 func TestDumpTimestamp(t *testing.T) {
 	f := new(bytes.Buffer)
 
