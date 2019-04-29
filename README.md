@@ -19,7 +19,7 @@ import (
 )
 
 func main() {
-	fmt.Printf("Prease try to\n")
+	fmt.Printf("Please try to\n")
 	fmt.Printf("\t$ kill -CONT %d\n", os.Getpid())
 
 	sigdump.Setup(syscall.SIGCONT, "./dump.log")
